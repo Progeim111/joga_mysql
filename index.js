@@ -42,6 +42,7 @@ app.get("/", (req, res) => {
         })
     })
 });
+
 app.get('/article/:slug', (req, res) => {
     let query = `SELECT * FROM article where slug="${req.params.slug}"`;
     let article
