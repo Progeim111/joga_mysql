@@ -11,26 +11,16 @@ app.engine('hbs', hbs.engine({
     defaultLayout: 'main',
     layoutsDir:__dirname+ '/views/layouts/',
 }))
-
 app.use(express.static('public'));
 
-const mysql = require('mysql')
 const bodyParser = require('body-parser')
 
 app.use(bodyParser.urlencoded({extended:true}))
 
-let con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "qwerty",
-    database: "joga_mysql",
-})
+const articleRoutes = require('./routes/article');
 
-con.connect(function (err){
-    if (err) throw err;
-    console.log('connected to joga_mysql db')
-
-})
+app.use('/', articleRoutes);
+app.use('/article', articleRoutes)
 
 
 app.get("/", (req, res) => {
