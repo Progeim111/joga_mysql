@@ -31,6 +31,8 @@ con.connect(function (err){
     console.log('connected to joga_mysql db')
 
 })
+
+
 app.get("/", (req, res) => {
     let query = 'SELECT * FROM article';
     let articles = []
