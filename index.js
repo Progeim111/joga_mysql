@@ -32,7 +32,7 @@ con.connect(function (err){
 
 })
 app.get("/", (req, res) => {
-    let query = "SELECT * FROM article";
+    let query = 'SELECT * FROM article';
     let articles = []
     con.query(query, (err, result)=>{
         if (err) throw err
@@ -41,19 +41,27 @@ app.get("/", (req, res) => {
             articles: articles
         })
     })
+
 });
 
+
 app.get('/article/:slug', (req, res) => {
-    let query = `SELECT * FROM article where slug="${req.params.slug}"`;
+    let query = `
+        SELECT article.name, article.published, article.body, article.image, author.name as author_name, author.id as author_id
+        FROM article
+                 JOIN author ON article.author_id = author.id
+        WHERE article.slug="${req.params.slug}"`;
     let article
-    con.query(query, (err, result)=>{
-        if (err) throw err
-        article = result
+    con.query(query, (err, result) => {
+        if (err) throw err;
+        console.log(result);
+        article = result[0];
         res.render('article', {
             article: article
-        })
-    })
+        });
+    });
 });
+
 
 process.on('uncaughtException', (err) => {
     console.error('Uncaught Exception: ', err);
